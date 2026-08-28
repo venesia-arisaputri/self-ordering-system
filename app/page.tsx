@@ -33,6 +33,7 @@ export default function Home() {
           src="/hero.png"
           width={313}
           height={415}
+          loading="eager"
           alt="Picture of logo.png"
         />
       </section>
@@ -118,6 +119,7 @@ export default function Home() {
             <Image
               src="/story.png"
               fill
+              sizes="340px"
               className="object-cover"
               alt="Cozy cabin bar seating with plaid cushions and an espresso machine"
             />
