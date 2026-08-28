@@ -1,17 +1,102 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+"use client";
 
-export default async function AdminPage() {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("admin_session");
+import { useState, useEffect } from "react";
+import { Product } from "../types/product";
 
-  if (!session) {
-    redirect("/login");
+export default function Menu() {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [image, setImage] = useState("");
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data));
+  }, []);
+
+  async function addProduct() {
+    const request = await fetch("/api/products", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: name,
+        description: description,
+        price: Number(price),
+        image: image,
+      }),
+    });
+    if (request.ok) {
+      const data = await request.json();
+      setProducts((prev) => [...prev, data]);
+    }
+  }
+
+  async function deleteProduct(id: number) {
+    const request = await fetch("/api/products", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: id,
+      }),
+    });
+
+    if (request.ok) {
+      setProducts((prev) => prev.filter((products) => products.id !== id));
+    }
   }
 
   return (
     <div>
-      <h1>Admin Dashboard</h1>
+      <div className="w-full flex justify-center mt-14 gap-4">
+        <input
+          type="text"
+          placeholder="nama"
+          className="border-1"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="description"
+          className="border-1"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="price"
+          className="border-1"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="image"
+          className="border-1"
+          value={image}
+          onChange={(e) => setImage(e.target.value)}
+        />
+        <button className="bg-green-600" onClick={addProduct}>
+          Add Product
+        </button>
+      </div>
+      <div className="flex gap-8 grid grid-cols-5 mx-24 mt-24">
+        {products.map((product) => (
+          <div
+            key={product.id}
+            className="flex flex-col items-center justify-center border-1"
+          >
+            <p>{product.name}</p>
+            <p>{product.description}</p>
+            <p>{product.price}</p>
+            <p>{product.stock}</p>
+            <p>{product.isAvailable}</p>
+            <button onClick={() => deleteProduct(product.id)}>-</button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
