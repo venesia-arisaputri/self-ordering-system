@@ -6,12 +6,13 @@ import "./globals.css";
 const lora = Lora({
   variable: "--font-lora",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 const lato = Lato({
   variable: "--font-lato",
   subsets: ["latin"],
-  weight: ["100", "400", "700"],
+  weight: ["100", "300", "400", "700"],
 });
 
 const geistSans = Geist({
