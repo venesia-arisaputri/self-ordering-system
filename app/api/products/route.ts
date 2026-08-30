@@ -10,7 +10,7 @@ export async function GET() {
 export async function POST(request: Request) {
   const body = await request.json();
 
-  if (!body.name || !body.description || body.price == null || !body.image) {
+  if (!body.name || !body.description || body.price === null || !body.image) {
     return NextResponse.json({ error: "Data tidak lengkap" }, { status: 400 });
   }
 

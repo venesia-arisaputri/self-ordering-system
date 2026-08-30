@@ -9,6 +9,8 @@ export default function Menu() {
   const [price, setPrice] = useState("");
   const [image, setImage] = useState("");
   const [products, setProducts] = useState<Product[]>([]);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     fetch("/api/products")
@@ -17,7 +19,7 @@ export default function Menu() {
   }, []);
 
   async function addProduct() {
-    const request = await fetch("/api/products", {
+    const response = await fetch("/api/products", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -27,14 +29,18 @@ export default function Menu() {
         image: image,
       }),
     });
-    if (request.ok) {
-      const data = await request.json();
+    if (response.ok) {
+      const data = await response.json();
       setProducts((prev) => [...prev, data]);
+    } else {
+      const data = await response.json();
+      setError(true);
+      setErrorMessage(data.error);
     }
   }
 
   async function deleteProduct(id: number) {
-    const request = await fetch("/api/products", {
+    const response = await fetch("/api/products", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -42,7 +48,7 @@ export default function Menu() {
       }),
     });
 
-    if (request.ok) {
+    if (response.ok) {
       setProducts((prev) => prev.filter((products) => products.id !== id));
     }
   }
@@ -97,6 +103,20 @@ export default function Menu() {
           </div>
         ))}
       </div>
+      {error && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50">
+          <div className="rounded-lg bg-white p-6">
+            <h2 className="text-xl font-bold">Error</h2>
+            <p>{errorMessage}</p>
+            <button
+              onClick={() => setError(false)}
+              className="mt-4 rounded bg-red-500 px-4 py-2 text-white"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

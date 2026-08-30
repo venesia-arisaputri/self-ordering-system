@@ -9,13 +9,13 @@ export default function Header() {
   return (
     <header className="relative flex items-center justify-between lg:justify-start gap-[4rem] sm:gap-[12rem] lg:gap-[7.5rem] bg-[#283618] text-[#FEFAE0] w-[calc(100%-2rem)] lg:w-fit px-5 xl:px-28 py-4 rounded-2xl">
       <div className="flex items-center gap-3 sm:gap-4 lg:gap-[2rem]">
-        <Image
+        {/* <Image
           src="/logo.svg"
           width={48}
           height={48}
           className="w-10 h-10 sm:w-12 sm:h-12"
           alt="Mossy Mug Logo"
-        />
+        /> */}
         <p className="font-lora font-[600] text-[clamp(1rem,0.824rem+0.751vw,1.5rem)] tracking-widest sm:tracking-[0.25em] whitespace-nowrap">
           MOSSY MUG
         </p>
