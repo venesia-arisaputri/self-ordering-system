@@ -100,13 +100,13 @@ export default function Footer() {
         </div>
       </div>
 
-      <Image
+      {/* <Image
         src="/logo.svg"
         width={240}
         height={240}
         alt="Picture of the logo background"
         className="hidden lg:block absolute right-16 xl:right-8 top-[-100px] xl:top-[-140px] z-49 w-45 h-45 xl:w-60 xl:h-60"
-      />
+      /> */}
     </div>
   );
 }
