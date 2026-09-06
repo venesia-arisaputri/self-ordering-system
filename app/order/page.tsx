@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Product } from "../types/product";
+import Header from "../components/Header";
+import MenuGrid from "../components/MenuGrid";
+import OrderSummary from "../components/OrderSummary";
 
 export default function Order() {
   const [order, setOrder] = useState<Product[]>([]);
@@ -22,28 +25,26 @@ export default function Order() {
   }
 
   return (
-    <div className="p-24">
-      <div className="grid grid-cols-5 gap-14">
-        {products.map((product) => (
-          <div
-            className="border-1 border-[#BC6C25] py-2 px-4 flex flex-col rounded-xl"
-            key={product.id}
-          >
-            <p>{product.name}</p>
-            <p>{product.price}</p>
-            <button
-              className="bg-[#BC6C25] font-lato rounded-lg text-[#FEFAE0]"
-              onClick={() => addOrder(product)}
-            >
-              + ADD TO ORDER
-            </button>
-          </div>
-        ))}
+    <div className="bg-[#606C38] w-full px-8 sm:px-16 xl:px-30">
+      <div className="sticky top-8 z-50 flex justify-center">
+        <Header />
       </div>
-      {order.map((ordered) => ordered.name)}
-      <button className="bg-green-400 p-4" onClick={checkout}>
-        Checkout Now
-      </button>
+
+      <section className="text-[#FEFAE0] text-center mt-16 mb-10">
+        <p className="font-lora font-[700] text-[clamp(32px,4.44vw,64px)]">
+          Your Comfort, Ready to Order.
+        </p>
+        <p className="font-lato font-[300] text-[clamp(14px,1.39vw,20px)] leading-tight mt-6">
+          Explore our selection of slow-brewed drinks and cozy bites. Pick your
+          favorites, and let us prepare a<br />
+          moment of calm just for you.
+        </p>
+      </section>
+
+      <section className="flex bg-[#FEFAE0] gap-6 py-8">
+        <MenuGrid products={products} addOrder={addOrder} />
+        <OrderSummary order={order} checkout={checkout} />
+      </section>
     </div>
   );
 }

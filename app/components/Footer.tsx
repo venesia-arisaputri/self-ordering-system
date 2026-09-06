@@ -3,6 +3,7 @@ import { FaInstagram, FaTiktok, FaFacebookF, FaWhatsapp } from "react-icons/fa";
 import { IoBagHandle } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
 import { FaXTwitter } from "react-icons/fa6";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -66,9 +67,12 @@ export default function Footer() {
             <a href="#about" className="hover:text-[#BC6C25] transition-colors">
               About Us
             </a>
-            <a href="" className="hover:text-[#BC6C25] transition-colors">
+            <Link
+              href="/order"
+              className="hover:text-[#BC6C25] transition-colors"
+            >
               Order Now
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -100,13 +104,13 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* <Image
+      <Image
         src="/logo.svg"
         width={240}
         height={240}
         alt="Picture of the logo background"
         className="hidden lg:block absolute right-16 xl:right-8 top-[-100px] xl:top-[-140px] z-49 w-45 h-45 xl:w-60 xl:h-60"
-      /> */}
+      />
     </div>
   );
 }
