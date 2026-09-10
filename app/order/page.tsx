@@ -31,6 +31,9 @@ export default function Order() {
           >
             <p>{product.name}</p>
             <p>{product.price}</p>
+            <img
+              src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-image/${product.image}`}
+            />
             <button
               className="bg-[#BC6C25] font-lato rounded-lg text-[#FEFAE0]"
               onClick={() => addOrder(product)}

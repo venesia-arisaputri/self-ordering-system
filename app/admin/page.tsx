@@ -7,7 +7,7 @@ export default function Menu() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState<File | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -19,15 +19,18 @@ export default function Menu() {
   }, []);
 
   async function addProduct() {
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("price", price);
+    if (image) {
+      formData.append("image", image);
+    }
+
     const response = await fetch("/api/products", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: name,
-        description: description,
-        price: Number(price),
-        image: image,
-      }),
+      body: formData,
     });
     if (response.ok) {
       const data = await response.json();
@@ -51,6 +54,10 @@ export default function Menu() {
     if (response.ok) {
       setProducts((prev) => prev.filter((products) => products.id !== id));
     }
+  }
+
+  function getImageUrl(fileName: string) {
+    return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-image/${fileName}`;
   }
 
   return (
@@ -78,11 +85,10 @@ export default function Menu() {
           onChange={(e) => setPrice(e.target.value)}
         />
         <input
-          type="text"
+          type="file"
           placeholder="image"
           className="border-1"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
+          onChange={(e) => setImage(e.target.files?.[0] ?? null)}
         />
         <button className="bg-green-600" onClick={addProduct}>
           Add Product
@@ -99,6 +105,11 @@ export default function Menu() {
             <p>{product.price}</p>
             <p>{product.stock}</p>
             <p>{product.isAvailable}</p>
+            <img
+              src={getImageUrl(product.image)}
+              alt={product.name}
+              className="w-32 h-32 object-cover"
+            />
             <button onClick={() => deleteProduct(product.id)}>-</button>
           </div>
         ))}
