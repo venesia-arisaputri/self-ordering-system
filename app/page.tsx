@@ -3,6 +3,7 @@
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -27,12 +28,17 @@ export default function Home() {
           </p>
 
           <div className="flex flex-wrap justify-center lg:justify-start gap-4 md:gap-8 mt-6">
-            <button className="bg-[#DDA15E] px-9.5 sm:px-4 py-2 text-xs md:px-5 md:py-2 xl:px-6 xl:py-2.5 xl:text-sm rounded-lg font-[700] text-[#283618] hover:bg-[#BC6C25] transition-colors cursor-pointer">
-              ORDER NOW
-            </button>
-            <button className="border-1 border-[#FEFAE0] px-4 py-2 text-xs md:px-5 md:py-2 xl:px-6 xl:py-2.5 xl:text-sm rounded-lg font-[700] text-[#FEFAE0] hover:border-[#DDA15E] hover:text-[#DDA15E] transition-colors cursor-pointer">
-              SEE OUR LOCATION
-            </button>
+            <Link href="/order">
+              <button className="bg-[#DDA15E] px-9.5 sm:px-4 py-2 text-xs md:px-5 md:py-2 xl:px-6 xl:py-2.5 xl:text-sm rounded-lg font-[700] text-[#283618] hover:bg-[#BC6C25] transition-colors cursor-pointer">
+                ORDER NOW
+              </button>
+            </Link>
+
+            <a href="#location">
+              <button className="border-1 border-[#FEFAE0] px-4 py-2 text-xs md:px-5 md:py-2 xl:px-6 xl:py-2.5 xl:text-sm rounded-lg font-[700] text-[#FEFAE0] hover:border-[#DDA15E] hover:text-[#DDA15E] transition-colors cursor-pointer">
+                SEE OUR LOCATION
+              </button>
+            </a>
           </div>
         </div>
 
