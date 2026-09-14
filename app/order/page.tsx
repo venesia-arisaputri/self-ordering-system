@@ -33,6 +33,7 @@ export default function Order() {
             <p>{product.price}</p>
             <img
               src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-image/${product.image}`}
+              className="h-30 w-30"
             />
             <button
               className="bg-[#BC6C25] font-lato rounded-lg text-[#FEFAE0]"
