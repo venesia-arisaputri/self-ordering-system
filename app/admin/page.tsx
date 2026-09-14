@@ -11,6 +11,8 @@ export default function Menu() {
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
 
   useEffect(() => {
     fetch("/api/products")
@@ -110,10 +112,18 @@ export default function Menu() {
               alt={product.name}
               className="w-32 h-32 object-cover"
             />
-            <button onClick={() => deleteProduct(product.id)}>-</button>
+            <button
+              onClick={() => {
+                setDeleteModal(true);
+                setDeleteId(product.id);
+              }}
+            >
+              -
+            </button>
           </div>
         ))}
       </div>
+
       {error && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50">
           <div className="rounded-lg bg-white p-6">
@@ -125,6 +135,34 @@ export default function Menu() {
             >
               OK
             </button>
+          </div>
+        </div>
+      )}
+
+      {deleteModal && (
+        <div className="fixed bg-black/50 inset-0 flex items-center justify-center">
+          <div className="bg-white rounded-xl p-4">
+            <h1 className="text-lg mb-4 font-black">Delete this product?</h1>
+            <div className="w-full flex justify-center gap-8">
+              <button
+                onClick={() => setDeleteModal(false)}
+                className="bg-gray-600 px-4 text-white rounded-lg"
+              >
+                No
+              </button>
+              <button
+                className="bg-red-600 px-4 text-white rounded-lg"
+                onClick={() => {
+                  if (deleteId !== null) {
+                    deleteProduct(deleteId);
+                  }
+                  setDeleteModal(false);
+                  setDeleteId(null);
+                }}
+              >
+                Yes
+              </button>
+            </div>
           </div>
         </div>
       )}
